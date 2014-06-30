@@ -193,6 +193,8 @@ typedef void (^FICImageRequestCompletionBlock)(UIImage *sourceImage);
  method for the corresponding entity, if called, does nothing.
  */
 - (void)cancelImageRetrievalForEntity:(id <FICEntity>)entity withFormatName:(NSString *)formatName;
+
+- (void)cancelImageRetrievalForEntity:(id <FICEntity>)entity forCompletionBlock:(FICImageCacheCompletionBlock)completionBlock withFormatName:(NSString *)formatName;;
     
 ///-----------------------------------
 /// @name Checking for Image Existence
@@ -306,5 +308,6 @@ typedef void (^FICImageRequestCompletionBlock)(UIImage *sourceImage);
  @discussion Fast Image Cache will not explicitly log any messages to standard output. Instead, it allows the delegate to handle (or ignore) any error output.
  */
 - (void)imageCache:(FICImageCache *)imageCache errorDidOccurWithMessage:(NSString *)errorMessage;
+
 
 @end

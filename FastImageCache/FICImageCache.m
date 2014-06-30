@@ -408,6 +408,39 @@ static void _FICAddCompletionBlockForEntity(NSString *formatName, NSMutableDicti
     }
 }
 
+
+- (void)cancelImageRetrievalForEntity:(id <FICEntity>)entity forCompletionBlock:(FICImageCacheCompletionBlock)completionBlock withFormatName:(NSString *)formatName {
+    NSURL *sourceImageURL = [entity sourceImageURLWithFormatName:formatName];
+    NSMutableDictionary *requestDictionary = [_requests objectForKey:sourceImageURL];
+    if (requestDictionary) {
+        NSString *entityUUID = [entity UUID];
+        NSMutableDictionary *entityRequestsDictionary = [requestDictionary objectForKey:entityUUID];
+        if (entityRequestsDictionary) {
+            NSMutableDictionary *completionBlocksDictionary = [entityRequestsDictionary objectForKey:FICImageCacheCompletionBlocksKey];
+            NSMutableArray *completionBlocks = [completionBlocksDictionary objectForKey:formatName];
+            
+            [completionBlocks removeObject:completionBlock];
+            
+            if([completionBlocks count]==0){
+                [completionBlocksDictionary removeObjectForKey:formatName];
+            }
+
+            if ([completionBlocksDictionary count] == 0) {
+                [requestDictionary removeObjectForKey:entityUUID];
+            }
+            
+            if ([requestDictionary count] == 0) {
+                [_requests removeObjectForKey:sourceImageURL];
+                
+                if (_delegateImplementsCancelImageLoadingForEntityWithFormatName) {
+                    [_delegate imageCache:self cancelImageLoadingForEntity:entity withFormatName:formatName];
+                }
+            }
+        }
+    }
+}
+
+
 - (void)reset {
     for (FICImageTable *imageTable in [_imageTables allValues]) {
         [imageTable reset];
