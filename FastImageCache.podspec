@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "FastImageCache"
-  s.version      = "1.1"
+  s.version      = "1.3"
   s.summary      = "iOS library for quickly displaying images while scrolling"
 
   s.description  = <<-DESC
@@ -16,7 +16,7 @@ A significant burden on performance for graphics-rich applications like Path is 
 
   s.platform     = :ios
   s.platform     = :ios, '6.0'
-  s.source       = { :git => "https://github.com/path/FastImageCache.git", :tag => "1.1" }
+  s.source       = { :git => "https://github.com/path/FastImageCache.git", :tag => "1.3" }
 
   s.source_files  = 'FastImageCache'
   s.requires_arc = true
