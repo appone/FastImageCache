@@ -231,14 +231,17 @@ static FICImageCache *__imageCache = nil;
             if (image != nil){
                 [self _processImage:image forEntity:entity withFormatName:formatName completionBlocksDictionary:completionBlocksDictionary];
             } else {
-                NSArray *completionBlocks = [completionBlocksDictionary objectForKey:formatName];
-                if (completionBlocks != nil) {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        for (FICImageCacheCompletionBlock completionBlock in completionBlocks) {
-                            completionBlock(entity, formatName, nil);
-                        }
-                    });
+                for (NSString *blockFormatName in [completionBlocksDictionary allKeys]) {
+                    NSArray *completionBlocks = [completionBlocksDictionary objectForKey:blockFormatName];
+                    if (completionBlocks != nil) {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            for (FICImageCacheCompletionBlock completionBlock in completionBlocks) {
+                                completionBlock(entity, blockFormatName, nil);
+                            }
+                        });
+                    }
                 }
+
             }
         }
     }
