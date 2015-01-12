@@ -146,6 +146,7 @@ static NSString *const FICImageTableFormatKey = @"format";
         _imageFormatDictionary = [imageFormat dictionaryRepresentation];
         
         _screenScale = [[UIScreen mainScreen] scale];
+        _screenScale = MIN(2.0, _screenScale);
         
         CGSize pixelSize = [_imageFormat pixelSize];
         NSInteger bytesPerPixel = [_imageFormat bytesPerPixel];

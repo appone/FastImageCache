@@ -57,6 +57,7 @@ static NSString *const FICImageFormatProtectionModeKey = @"protectionMode";
         _imageSize = imageSize;
         
         CGFloat screenScale = [[UIScreen mainScreen] scale];
+        screenScale = MIN(2.0, screenScale);
         _pixelSize = CGSizeMake(screenScale * _imageSize.width, screenScale * _imageSize.height);
     }
 }
@@ -173,7 +174,10 @@ static NSString *const FICImageFormatProtectionModeKey = @"protectionMode";
     [dictionaryRepresentation setValue:[NSNumber numberWithInt:_devices] forKey:FICImageFormatDevicesKey];
     [dictionaryRepresentation setValue:[NSNumber numberWithUnsignedInteger:_protectionMode] forKey:FICImageFormatProtectionModeKey];
 
-    [dictionaryRepresentation setValue:[NSNumber numberWithFloat:[[UIScreen mainScreen] scale]] forKey:FICImageTableScreenScaleKey];
+    CGFloat screenScale = [[UIScreen mainScreen] scale];
+    screenScale = MIN(2.0, screenScale);
+
+    [dictionaryRepresentation setValue:[NSNumber numberWithFloat:screenScale] forKey:FICImageTableScreenScaleKey];
     [dictionaryRepresentation setValue:[NSNumber numberWithUnsignedInteger:[FICImageTableEntry metadataVersion]] forKey:FICImageTableEntryDataVersionKey];
     
     return dictionaryRepresentation;
